@@ -388,6 +388,20 @@ BRC-20 token transfers would require:
 
 ---
 
+## Implementation Note
+
+This implementation demonstrates a DLC-based atomic swap bridge between Bitcoin and Fractal Bitcoin using adaptor signatures.
+
+**Technical Approach:** This implementation applies the theoretical "Elevator" bridging primitive described in the Fractal Bitcoin whitepaper, demonstrating:
+- DLC-based atomic swaps between Bitcoin and Fractal Bitcoin
+- Adaptor signature-based secret extraction across chains
+- Taproot script construction for cross-chain DLC coordination
+- Real-world mainnet transaction examples
+
+This work builds on open-source Bitcoin primitives (Taproot, Schnorr signatures, DLCs) and the Fractal Bitcoin whitepaper. If you build upon this implementation, we ask that you provide appropriate attribution.
+
+---
+
 **Built for Bitcoin/Fractal Bitcoin**
 
 *This README explains the bridge mechanism. For implementation details, code, and deployment instructions, please reach out in telegram group at https://t.me/FractalBits or X : https://x.com/Fractal_TLB .*
