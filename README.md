@@ -3,7 +3,7 @@
 
 ## Overview
 
-This bridge enables atomic swaps between Bitcoin (BTC) and Fractal Bitcoin (FB) using DLCs. The mechanism works bidirectionally: users can swap BTC → FB or FB → BTC using the same protocol. The example below demonstrates a BTC → FB swap, but the reverse direction follows the same process.
+This bridge enables atomic swaps between Bitcoin (BTC) and Fractal Bitcoin (FB) using DLCs. The mechanism works bidirectionally: users can swap BTC → FB or FB → BTC using the same protocol. Abd the example below showcases a BTC → FB swap.
 
 The Fractal Bitcoin whitepaper states:
 
