@@ -1,6 +1,4 @@
 # DLC_Bridge-FB-BTC
-A trustless, atomic swap bridge between Bitcoin and Fractal Bitcoin using Taproot-based Discreet Log Contracts (DLCs) with adaptor signatures. This implementation should demonstrate the "Elevator" bridging primitive described in the Fractal Bitcoin whitepaper.
-
 ---
 
 ## Overview
