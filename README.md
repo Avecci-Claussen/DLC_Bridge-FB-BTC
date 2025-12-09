@@ -106,13 +106,13 @@ When one party claims funds on their chain, they reveal an adaptor signature. Th
 ### 1. Setup
 
 ```
-User A (BTC)                  User B (FB)
-   │                              │
-   │  1. Generate adaptor secret s
-   │  2. Compute adaptor point P = s·G
-   │                              │
-   │  ──────────────────────────>│  Share adaptor point P
-   │                              │
+User A (BTC)                       User B (FB)
+   │                                   │
+   │  1. Generate adaptor secret s     │
+   │  2. Compute adaptor point P = s·G │
+   │                                   │
+   │  ───────────────────────────>│Share adaptor point P
+   │                                   │
 ```
 
 - User A generates a random 32-byte secret `s`
@@ -122,16 +122,16 @@ User A (BTC)                  User B (FB)
 ### 2. Contract Creation
 
 ```
-User A (BTC)                  User B (FB)
-   │                              │
-   │  3. Create DLC-A on Bitcoin  │
-   │     • Success: Adaptor Sig + User B Sig
-   │     • Refund:  Timeout + User A Sig
-   │                              │
-   │                              │  4. Create DLC-B on Fractal Bitcoin
-   │                              │     • Success: Adaptor Sig + User A Sig
-   │                              │     • Refund:  Timeout + User B Sig
-   │                              │
+User A (BTC)                              User B (FB)
+   │                                           │
+   │  3. Create DLC-A on Bitcoin               │
+   │     • Success: Adaptor Sig + User B Sig   │  
+   │     • Refund:  Timeout + User A Sig       │
+   │                                           │
+   │                                           │  4. Create DLC-B on Fractal Bitcoin
+   │                                           │     • Success: Adaptor Sig + User A Sig
+   │                                           │     • Refund:  Timeout + User B Sig
+   │                                           │
 ```
 
 - Both contracts reference the same adaptor point `P`
@@ -141,14 +141,14 @@ User A (BTC)                  User B (FB)
 ### 3. Funding
 
 ```
-User A (BTC)                  User B (FB)
-   │                              │
-   │  5. Fund DLC-A               │
-   │     Send BTC to DLC-A address│
-   │                              │
-   │  ──────────────────────────>│  6. Fund DLC-B
-   │                              │     Send FB to DLC-B address
-   │                              │
+User A (BTC)                    User B (FB)
+   │                                │
+   │  5. Fund DLC-A                 │
+   │     Send BTC to DLC-A address  │
+   │                                │
+   │  ─────────────────────────────>│ 6. Fund DLC-B
+   │                                │    Send FB to DLC-B address
+   │                                │
 ```
 
 - User A sends Bitcoin to the DLC-A Taproot address
@@ -159,19 +159,22 @@ User A (BTC)                  User B (FB)
 ### 4. Claiming
 
 ```
-User A (BTC)                  User B (FB)
-   │                              │
-   │                              │  7. Claim DLC-B
-   │                              │     • Create adaptor signature using s
-   │                              │     • Broadcast transaction
-   │                              │
-   │  8. Observe adaptor signature│
-   │     Extract secret s          │
-   │                              │
-   │  9. Claim DLC-A              │
-   │     • Use extracted s        │
-   │     • Complete the swap      │
-   │                              │
+User A (BTC)                    User B (FB)
+   │                                │
+   │                                │  7. Claim DLC-B
+   │                                │     • Create adaptor signature using s
+   │                                │     • Broadcast transaction
+   │                                │
+   │              ││────────────────────────────────────
+   │              ││                │
+   │              \/                │
+   │  8. Observe adaptor signature  │
+   │     Extract secret s           │
+   │                                │
+   │  9. Claim DLC-A                │
+   │     • Use extracted s          │
+   │     • Complete the swap        │
+   │                                │
 ```
 
 **Process:**
@@ -346,42 +349,45 @@ The mechanism is identical in both directions—only the chain assignments chang
 
 ---
 
-## Future Extensions
+### Potential/Theoretical Applications
 
-### Recursive Scalability
+The Fractal Bitcoin whitepaper proposes a mechanism for preserving Ordinals when bridging:
 
-Since every BCSP layer (Bitcoin, FB, FB2, FB3, etc.) uses the same cryptographic primitives, this bridging template scales recursively:
+> *"Recognizing that the value of Ordinals is closely tied not only to the stored data but also directly related to the unique satoshis (and their numbering), a mechanism is proposed to lock and map specific satoshis on the main chain to the instance. This allows the circulation of Ordinals there and, when needed, unlocking and returning the specific satoshis along with their corresponding inscriptions."*
 
-```
-Bitcoin ←→ Fractal Bitcoin ←→ Fractal Bitcoin 2 ←→ Fractal Bitcoin 3 ...
-```
+**How it could work:**
+1. Lock the UTXO containing the Ordinal in a DLC on Bitcoin (preserving the specific satoshi)
+2. Extract and include the inscription data in the bridge transaction metadata
+3. Create a corresponding UTXO on Fractal Bitcoin with the inscription data re-inscribed
+4. Maintain a mapping between the Bitcoin satoshi and the Fractal Bitcoin representation
+5. Use the same DLC mechanism to unlock and return the satoshi with its inscription
 
-Each layer pair can use the same DLC-based mechanism without modification.
+**Challenges:**
+- Satoshi numbering is chain-specific (Bitcoin's satoshi #12345 ≠ FB's satoshi #12345)
+- Requires inscription data extraction and re-inscription on the destination chain, or data preservation if possible.
+- Needs coordination with indexers for BRC-20 balance tracking
+- Requires metadata preservation and verification mechanisms
 
-### Potential Applications
+**Feasibility:** The DLC mechanism can lock UTXOs containing Ordinals, and the inscription data can be preserved in transaction metadata. The main challenge is maintaining the satoshi identity mapping and coordinating with off-chain indexers correctly.
 
-The same mechanism can be extended for:
-- Ordinal-preserving bridges (preserve inscriptions when bridging)
-- BRC-20 and token transfers (cross-layer token movement)
-- Generic asset movement (any UTXO-based asset)
+### BRC-20 and Token Transfers
 
+BRC-20 token transfers would require:
+- Off-chain indexer coordination to track token balances
+- Metadata preservation in bridge transactions
+- Verification mechanisms to ensure token supply integrity
+- Coordination between Bitcoin and Fractal Bitcoin indexers
 ---
 
 ## Notes
 
 - This document provides an overview of the bridge mechanism
 - Implementation details and code will be published separately
-- All examples use real mainnet transactions
+- All examples here use real mainnet transactions
 - The mechanism requires careful timeout configuration for production use
 
 ---
 
-## Acknowledgments
+**Built for Bitcoin/Fractal Bitcoin**
 
-This implementation demonstrates the Fractal "Elevator" bridging primitive described in the Fractal Bitcoin whitepaper, showing that DLCs can create trustless, atomic links between Bitcoin and Fractal Bitcoin chains.
-
----
-
-**Built for the Bitcoin ecosystem**
-
-*This README explains the bridge mechanism. For implementation details, code, and deployment instructions, see the main repository (to be published).*
+*This README explains the bridge mechanism. For implementation details, code, and deployment instructions, please reach out in telegram group at https://t.me/FractalBits or X : https://x.com/Fractal_TLB .*
