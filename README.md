@@ -48,38 +48,38 @@ When one party claims funds on their chain, they reveal an adaptor signature. Th
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Bitcoin Chain (BTC)                       │
-│                                                               │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │              DLC-A (Taproot Script)                 │   │
-│  │                                                       │   │
-│  │  Success Path: Adaptor Sig + Receiver Sig            │   │
-│  │  Refund Path:  Timeout (CLTV) + Sender Sig          │   │
-│  │                                                       │   │
-│  │  Adaptor Point: P = s·G                             │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                           ↕                                  │
+│                    Bitcoin Chain (BTC)                      │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │              DLC-A (Taproot Script)                 │    │
+│  │                                                     │    │
+│  │  Success Path: Adaptor Sig + Receiver Sig           │    │
+│  │  Refund Path:  Timeout (CLTV) + Sender Sig          │    │
+│  │                                                     │    │
+│  │  Adaptor Point: P = s·G                             │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                           ↕                                 │
 │                    Shared Adaptor Point                     │
-│                           ↕                                  │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │              DLC-B (Taproot Script)                 │   │
-│  │                                                       │   │
-│  │  Success Path: Adaptor Sig + Receiver Sig            │   │
-│  │  Refund Path:  Timeout (CLTV) + Sender Sig          │   │
-│  │                                                       │   │
-│  │  Adaptor Point: P = s·G (same as DLC-A)             │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                               │
+│                           ↕                                 │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │              DLC-B (Taproot Script)                 │    │
+│  │                                                     │    │
+│  │  Success Path: Adaptor Sig + Receiver Sig           │    │
+│  │  Refund Path:  Timeout (CLTV) + Sender Sig          │    │
+│  │                                                     │    │
+│  │  Adaptor Point: P = s·G (same as DLC-A)             │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
                           ↕
 ┌─────────────────────────────────────────────────────────────┐
 │                 Fractal Bitcoin Chain (FB)                  │
-│                                                               │
+│                                                             │
 │  Common cryptographic primitives:                           │
 │  • Taproot (BIP-341)                                        │
-│  • Schnorr Signatures (BIP-340)                            │
+│  • Schnorr Signatures (BIP-340)                             │
 │  • secp256k1 elliptic curve                                 │
-│                                                               │
+│                                                             │
 │  Enables identical contract structure on both chains        │
 └─────────────────────────────────────────────────────────────┘
 ```
