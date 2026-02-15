@@ -29,6 +29,35 @@
   <code>Non-Custodial</code> · <code>Atomic</code> · <code>On-Chain Verified</code> · <code>Open Protocol</code>
 </p>
 
+## NexumBit
+
+### Why
+
+Bitcoin and Fractal Bitcoin share the same architecture, the same scripting language, and the same UTXO model — yet moving value between them today requires trusting a centralized bridge with your funds. Wrapped tokens introduce counterparty risk. Centralized exchanges add KYC friction, withdrawal delays, and custodial exposure. Users deserve a way to swap BTC ↔ FB that is as trustless as Bitcoin itself.
+
+NexumBit exists because **cross-chain swaps should not require trust**.
+
+### What
+
+NexumBit is a **non-custodial, peer-to-peer atomic swap protocol** purpose-built for Bitcoin and Fractal Bitcoin. It replaces traditional HTLC-based bridges with **Discreet Log Contracts (DLCs)** on **Taproot**, using **adaptor signatures** to cryptographically bind two independent on-chain transactions into a single atomic operation.
+
+- **No wrapped tokens.** You send real BTC; you receive real FB (and vice versa).
+- **No custodian.** Funds are locked in on-chain Taproot contracts that only the rightful owner can spend.
+- **No trust.** Every rule — who can claim, when refunds unlock, how amounts are verified — is enforced by Bitcoin Script on both chains.
+- **No revealed secrets.** Unlike HTLC preimages, adaptor secrets never appear on-chain, preserving privacy.
+
+The backend serves as a **matchmaker and PSBT builder** — it pairs compatible orders, constructs the contracts, and pre-signs its part of the adaptor signatures. It never holds keys, never custodies funds, and can be replaced without affecting locked contracts.
+
+### How
+
+1. **Two users create opposite orders** — one wants to send BTC and receive FB; the other wants to send FB and receive BTC.
+2. **The backend matches them**, generates a shared adaptor secret, and builds Taproot DLC addresses on both chains — each with a claim path (requiring the adaptor secret + receiver's key) and a refund path (requiring only the sender's key after a timelock).
+3. **Both users fund their respective DLCs** — User A sends BTC to DLC A; User B sends FB to DLC B. The backend monitors confirmations on both chains.
+4. **Once both are confirmed, claims become available.** When either user claims, the adaptor secret is revealed to the counterparty through the pre-signed adaptor signature, enabling both sides to claim. This is the atomicity guarantee.
+5. **If anything goes wrong**, timelocks ensure each user can reclaim their own funds after expiry — no counterparty cooperation needed.
+
+The entire flow is coordinated through PSBTs (Partially Signed Bitcoin Transactions) that the user signs in their own wallet. The backend constructs them; the user approves them. Sovereignty is never surrendered.
+
 ---
 
 ## Table of Contents
