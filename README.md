@@ -266,7 +266,7 @@ Each DLC output is a **Taproot (P2TR)** address containing two spending paths in
 
 ```mermaid
 flowchart TD
-    subgraph P2TR["DLC Output — P2TR Address"]
+    subgraph P2TR["DLC Output — P2TR"]
         IK["Internal Key<br/>(deterministic, no known private key)"]
     end
 
