@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0f14'/%3E%3Cpath d='M8 16h16M16 8v16' stroke='%237c5cff' stroke-width='2.5' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2321c97a' stroke-width='1.5' opacity='0.5'/%3E%3C/svg%3E" width="64" height="64" alt="NexumBit Logo">
+  <img src="https://zerobit.thelonelybit.org/nexumbit-logo.svg" width="72" height="72" alt="NexumBit Logo">
 </p>
 
 <h1 align="center">NexumBit Protocol</h1>
@@ -8,11 +8,22 @@
   Using Discreet Log Contracts (DLCs) with Adaptor Signatures on Taproot
 </p>
 
-<p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" width="24" alt="BTC">
-  &nbsp;⟷&nbsp;
-  <img src="https://next-cdn.unisat.space/_/2025-v2107/img/icon/fractal-mainnet.svg" width="24" alt="FB">
-</p>
+<table align="center" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" width="120">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" width="36" alt="Bitcoin"><br>
+      <strong>Bitcoin</strong>
+    </td>
+    <td align="center" width="80">
+      <code>&nbsp;⟶&nbsp;</code><br>
+      <code>&nbsp;⟵&nbsp;</code>
+    </td>
+    <td align="center" width="120">
+      <img src="https://next-cdn.unisat.space/_/2025-v2107/img/icon/fractal-mainnet.svg" width="36" alt="Fractal Bitcoin"><br>
+      <strong>Fractal Bitcoin</strong>
+    </td>
+  </tr>
+</table>
 
 <p align="center">
   <code>Non-Custodial</code> · <code>Atomic</code> · <code>On-Chain Verified</code> · <code>Open Protocol</code>
