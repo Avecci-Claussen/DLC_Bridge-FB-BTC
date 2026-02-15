@@ -29,7 +29,6 @@
   <code>Non-Custodial</code> · <code>Atomic</code> · <code>On-Chain Verified</code> · <code>Open Protocol</code>
 </p>
 
-## NexumBit
 
 ### Why
 
