@@ -2,7 +2,7 @@
   <img src="https://zerobit.thelonelybit.org/nexumbit-logo.svg" width="72" height="72" alt="NexumBit Logo">
 </p>
 
-<h1 align="center">NexumBit Protocol</h1>
+<h1 align="center">NexumBit</h1>
 <p align="center">
   <strong>Trustless P2P Atomic Swaps between Bitcoin and Fractal Bitcoin</strong><br>
   Using Discreet Log Contracts (DLCs) with Adaptor Signatures on Taproot
