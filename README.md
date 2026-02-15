@@ -84,18 +84,18 @@ The protocol uses **Discreet Log Contracts (DLCs)** built on **Taproot (P2TR)** 
 ## Architecture
 
 ```
-┌──────────────────┐                    ┌──────────────────┐
-│    User A         │                    │    User B         │
-│  (sends BTC)      │                    │  (sends FB)       │
-│  UniSat Wallet    │                    │  UniSat Wallet    │
-└────────┬─────────┘                    └────────┬─────────┘
+┌──────────────────┐                     ┌──────────────────┐
+│    User A        │                     │    User B        │
+│  (sends BTC)     │                     │  (sends FB)      │
+│  UniSat Wallet   │                     │  UniSat Wallet   │
+└────────┬─────────┘                     └────────┬─────────┘
          │                                        │
          │  HTTPS/JSON                            │  HTTPS/JSON
          ▼                                        ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    NexumBit Backend                          │
+│                    NexumBit Backend                         │
 │                                                             │
-│  ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐ │
+│  ┌─────────────┐   ┌──────────────┐  ┌────────────────────┐ │
 │  │  Matching    │  │ DLC Builder  │  │   PSBT Builder     │ │
 │  │  Service     │  │              │  │                    │ │
 │  │  ──────────  │  │  ──────────  │  │  ──────────────    │ │
@@ -104,9 +104,9 @@ The protocol uses **Discreet Log Contracts (DLCs)** built on **Taproot (P2TR)** 
 │  │  orders by   │  │  secrets &   │  │  PSBTs with pre-   │ │
 │  │  rate and    │  │  Taproot     │  │  embedded adaptor  │ │
 │  │  amount      │  │  scripts     │  │  signatures        │ │
-│  └─────────────┘  └──────────────┘  └────────────────────┘ │
+│  └─────────────┘  └──────────────┘  └────────────────────┘  │
 │                                                             │
-│  ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐ │
+│  ┌─────────────┐   ┌──────────────┐  ┌────────────────────┐ │
 │  │  Swap        │  │ Script       │  │   Taproot          │ │
 │  │  Monitor     │  │ Builder      │  │   Helpers          │ │
 │  │  ──────────  │  │  ──────────  │  │  ──────────────    │ │
@@ -115,14 +115,14 @@ The protocol uses **Discreet Log Contracts (DLCs)** built on **Taproot (P2TR)** 
 │  │  confirms    │  │  Tapscripts  │  │  tweaked keys,     │ │
 │  │  for both    │  │  (BIP-342)   │  │  control blocks    │ │
 │  │  chains      │  │              │  │  (BIP-341)         │ │
-│  └─────────────┘  └──────────────┘  └────────────────────┘ │
+│  └─────────────┘  └──────────────┘  └────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
          │                                        │
          ▼                                        ▼
 ┌──────────────────┐                    ┌──────────────────┐
-│  Bitcoin Network  │                    │ Fractal Bitcoin   │
-│  (BTC)            │                    │ (FB)              │
-│  3 conf required  │                    │ 10 conf required  │
+│  Bitcoin Network │                    │ Fractal Bitcoin  │
+│  (BTC)           │                    │ (FB)             │
+│  + conf required │                    │  + conf required │
 └──────────────────┘                    └──────────────────┘
 ```
 
@@ -556,54 +556,7 @@ Refund script:   H_b CLTV DROP <userB_xonly> CHECKSIG
 
 ---
 
-## API Reference
-
-### Core Endpoints
-
-| Method | Path | Description |
-|---|---|---|
-| `POST` | `/v1/swap/create` | Create a new swap order |
-| `POST` | `/v1/swap/{id}/confirm-dlc-a` | Confirm DLC A funding with txid |
-| `POST` | `/v1/swap/{id}/claim-dlc-b` | Get pre-signed claim PSBT |
-| `POST` | `/v1/swap/{id}/refund-dlc-a` | Get refund PSBT (after timeout) |
-| `POST` | `/v1/swap/{id}/cancel` | Cancel unfunded order |
-| `POST` | `/v1/swap/{id}/unmatch` | Unmatch from counterparty |
-| `GET`  | `/v1/swap/{id}` | Get swap details |
-| `GET`  | `/v1/swap/user/{address}` | Get all swaps for an address |
-| `GET`  | `/v1/swap/active-orders` | List available orders |
-| `GET`  | `/v1/swap/{id}/recovery-kit` | Download recovery data |
-
-### Supporting Endpoints
-
-| Method | Path | Description |
-|---|---|---|
-| `GET` | `/v1/rate/fb-btc` | Current exchange rate |
-| `GET` | `/v1/stats/bridge` | Bridge statistics |
-| `POST` | `/v1/quote` | Get a swap quote |
-
-### Create Swap Request
-
-```json
-{
-  "quote_id": "abc123...",
-  "user_refund_xonly": "619b7600...",
-  "user_pubkey_to": "02619b76...",
-  "adaptor_secret": "23839a2a...",
-  "matching_enabled": true,
-  "matching_slippage_bps": 500
-}
-```
-
-### Claim Response
-
-```json
-{
-  "psbt_hex": "70736274ff...",
-  "message": "Sign this PSBT with your wallet to claim funds"
-}
-```
-
-The PSBT contains the adaptor signature pre-embedded in `taproot_sigs`. The user only needs to add their own Schnorr signature.
+The Claim PSBTs contains the adaptor signature pre-embedded in `taproot_sigs`. The user only needs to add their own Schnorr signature.
 
 ---
 
